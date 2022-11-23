@@ -34,7 +34,7 @@ const createSlackMessage = (build) => {
     mrkdwn: true,
     attachments: [
       {
-        title: "Build logs - Your Custom Message Goes Here",
+        title: "DEPLOYMENT SUCCESSFUL!🎉🎉🎉",
         title_link: build.logUrl,
         fields: [
           {
