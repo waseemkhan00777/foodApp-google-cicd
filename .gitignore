@@ -1,0 +1,79 @@
+fireb# See https://help.github.com/ignore-files/ for more about ignoring files.
+.idea
+*.iml
+# dependencies
+node_modules
+functions/.history/
+.history/
+.vscode/
+.scannerwork
+./package-lock.json
+
+# functions
+functions/node_modules
+functions/src
+functions/**/*.js
+functions/**/*.js.map
+functions/.runtimeconfig.json
+functions/package-lock.json
+
+# testing
+functions/.nyc_output
+functions/.nyc_output/*
+functions/.nyc_output/processinfo
+functions/.nyc_output/processinfo/*
+functions/coverage
+functions/coverage/*
+.nyc_output
+.nyc_output/*
+.nyc_output/processinfo
+.nyc_output/processinfo/*
+.scannerwork/*
+functions/.scannerwork/*
+.tox/*
+functions/.tox/*
+/coverage
+coverage
+coverage/*
+
+/cosmos-export
+jest_0
+
+# production
+/build
+/public/launchpad
+
+/.cache-loader
+/.babel-cache
+/dll
+
+# misc
+.DS_Store
+.env.local
+.runtimeconfig.json
+.env.development.local
+.env.test.local
+.env.production.local
+.firebase
+.firebase/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.out/
+.lh/
+
+# virtualenv
+/venv
+*.pyc
+*.egg-info
+*.log
+/.project
+data_ingestion/data/mathAssignments.json
+data_ingestion/loadLegacyAssignmentData/loadLegacyAssignmentData.py
+
+*.icloud
+
+
+# storybook static content
+storybook-static
+/v8-compile-cache-0/
