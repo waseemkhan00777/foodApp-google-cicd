@@ -1,6 +1,6 @@
 const IncomingWebhook = require("@slack/client").IncomingWebhook;
 const SLACK_WEBHOOK_URL =
-  "https://hooks.slack.com/services/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";
+  "https://hooks.slack.com/services/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";
 
 const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 
@@ -8,9 +8,8 @@ const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 module.exports.subscribe = (event, callback) => {
   console.log("event: ", event);
   console.log("event: ", event.data);
-  console.log("event: ", event.data.data);
 
-  const build = eventToBuild(event.data.data);
+  const build = eventToBuild(event.data);
 
   // Skip if the current status is not in the status list.
   // Add additional statues to list if you'd like:
