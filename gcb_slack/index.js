@@ -7,9 +7,9 @@ const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 // subscribe is the main function called by Cloud Functions.
 module.exports.subscribe = (event, callback) => {
   console.log("event: ", event);
-  console.log("event: ", event.data);
 
   const build = eventToBuild(event.data);
+  console.log("build: ", build);
 
   // Skip if the current status is not in the status list.
   // Add additional statues to list if you'd like:
@@ -33,7 +33,7 @@ const eventToBuild = (data) => {
 // createSlackMessage create a message from a build object.
 const createSlackMessage = (build) => {
   let message = {
-    text: `Build \`${build.id}\``,
+    text: `Build \`${build.buildId}\``,
     mrkdwn: true,
     attachments: [
       {
