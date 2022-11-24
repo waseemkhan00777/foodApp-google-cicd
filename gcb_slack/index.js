@@ -23,10 +23,8 @@ module.exports.subscribe = (event, callback) => {
 
   // Send message to Slack.
   const message = createSlackMessage(build);
-  console.log(
-    "MESSAGE: ",
-    message
-  )(async () => {
+  // Send the notification
+  (async () => {
     await webhook.send(message);
   })();
 };
