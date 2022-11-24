@@ -16,7 +16,7 @@ module.exports.subscribe = (event, callback) => {
   // Add additional statues to list if you'd like:
   // QUEUED, WORKING, SUCCESS, FAILURE,
   // INTERNAL_ERROR, TIMEOUT, CANCELLED
-  const status = ["SUCCESS", "FAILURE", "INTERNAL_ERROR", "TIMEOUT"];
+  const status = ["QUEUED", "SUCCESS", "FAILURE", "INTERNAL_ERROR", "TIMEOUT"];
   if (status.indexOf(build.status) === -1) {
     return callback();
   }
@@ -24,7 +24,7 @@ module.exports.subscribe = (event, callback) => {
   // Send message to Slack.
   const message = createSlackMessage(build);
   // Send the notification
-  webhook.send(message, callback);
+  webhook.send(message);
 };
 
 // eventToBuild transforms pubsub event message to a build object.
