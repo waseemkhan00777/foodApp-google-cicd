@@ -1,4 +1,4 @@
-const IncomingWebhook = require("@slack/client").IncomingWebhook;
+const { IncomingWebhook } = require("@slack/webhook");
 const SLACK_WEBHOOK_URL =
   "https://hooks.slack.com/services/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";
 
@@ -9,6 +9,7 @@ module.exports.subscribe = (event, callback) => {
   console.log("event :: ", event);
 
   const build = eventToBuild(event.data);
+
   console.log("build: ", build);
 
   // Skip if the current status is not in the status list.
@@ -22,7 +23,12 @@ module.exports.subscribe = (event, callback) => {
 
   // Send message to Slack.
   const message = createSlackMessage(build);
-  webhook.send(message, callback);
+  console.log(
+    "MESSAGE: ",
+    message
+  )(async () => {
+    await webhook.send(message);
+  })();
 };
 
 // eventToBuild transforms pubsub event message to a build object.
@@ -33,7 +39,7 @@ const eventToBuild = (data) => {
 // createSlackMessage create a message from a build object.
 const createSlackMessage = (build) => {
   let message = {
-    text: `Build \`${build.buildId}\``,
+    text: `Build \`${build.id}\``,
     mrkdwn: true,
     attachments: [
       {
