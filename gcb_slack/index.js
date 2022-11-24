@@ -1,6 +1,6 @@
 const { IncomingWebhook } = require("@slack/webhook");
 const SLACK_WEBHOOK_URL =
-  "https://hooks.slack.com/services/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";
+  "https://hooks.slack.com/services/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";
 
 const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 
@@ -25,7 +25,9 @@ module.exports.subscribe = (event, callback) => {
   const message = createSlackMessage(build);
   // Send the notification
   (async () => {
-    await webhook.send(message);
+    await webhook.send({
+      text: "I've got news for you...",
+    });
   })();
 };
 
