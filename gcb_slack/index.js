@@ -1,6 +1,6 @@
 const { IncomingWebhook } = require("@slack/webhook");
 const SLACK_WEBHOOK_URL =
-  "https://hooks.slack.com/services/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";
+  "https://hooks.slack.com/services/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";
 
 const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 
