@@ -91,10 +91,10 @@ steps:
   #   id: Save Firebase Config
   #   args:
   #     - firebase functions:config:get > .name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'imeconfig.json
-  - name: "ubuntu"
-    entrypoint: bash
-    args: ["rm -f node_modules/.yarn.integrity"]
-    # error of no such file or directory
+#   - name: "ubuntu"
+#     entrypoint: bash
+#     args: ["rm -f node_modules/.yarn.integrity"]
+#     # error of no such file or directory
   - name: node
     id: node-install hosting
     entrypoint: yarn
