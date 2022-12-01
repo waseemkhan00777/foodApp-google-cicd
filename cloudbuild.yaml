@@ -16,11 +16,11 @@ steps:
   ###Build App###
   # 4 Displaying Google Id
   - id: Setup Google Project ID
-    name: "ubuntu"
+    name: 'ubuntu'
     entrypoint: bash
     env:
-      - "project_name=${PROJECT_ID}"
-      - "GOOGLE_PROJECT_ID=${PROJECT_ID}"
+      - 'project_name=${PROJECT_ID}'
+      - 'GOOGLE_PROJECT_ID=${PROJECT_ID}'
     args:
       - echo ${PROJECT_ID}
   # 5 Storing service account key
@@ -33,78 +33,78 @@ steps:
   - name: python:3.7
     id: Python Version check
     entrypoint: python3
-    args: ["--version"]
+    args: ['--version']
   # 11
   - name: python:3.7
     id: Install Dependencies
     entrypoint: pip3
-    args: ["install", "-r", "requirements.txt", "--user"]
+    args: ['install', '-r', 'requirements.txt', '--user']
   ###Build App Ends here###
   ###Build Hosting####
-  - name: "ubuntu"
+  - name: 'ubuntu'
     entrypoint: bash
-    args: ["rm -f node_modules/.yarn.integrity"]
+    args: ['rm -f node_modules/.yarn.integrity']
     # error of no such file or directory
   - name: node
     id: node-install hosting
     entrypoint: yarn
-    args: ["install", "--non-interactive", "--production=false"]
+    args: ['install', '--non-interactive', '--production=false']
   - name: node
     id: Run Typecheck
     entrypoint: yarn
-    args: ["run", "typecheck"]
+    args: ['run', 'typecheck']
   - name: node
     entrypoint: yarn
     id: Run Linting Check
-    args: ["run", "lint"]
+    args: ['run', 'lint']
   - name: node
     entrypoint: yarn
     id: Run Tests
-    timeout: "2700s"
-    args: ["run", "t:c"]
+    timeout: '2700s'
+    args: ['run', 't:c']
   ###Build Hosting ends here###
 
   ###Build Functions###
   - name: node
     id: Check npm version
     entrypoint: npm
-    args: ["--version"]
+    args: ['--version']
   - name: node
     id: node-install function
     entrypoint: yarn
-    args: ["install", "--production=false", "--force"]
+    args: ['install', '--production=false', '--force']
   - name: node
     id: Run Typecheck
     entrypoint: npm
-    args: ["run", "typecheck"]
+    args: ['run', 'typecheck']
   - name: node
     entrypoint: npm
     id: Run Linting Check
-    args: ["run", "lint"]
+    args: ['run', 'lint']
   - name: node
     entrypoint: npm
     id: Run Coverage Tests
-    args: ["run", "coverage"]
+    args: ['run', 'coverage']
   ###Build Functions ends here###
 
   ###Build Dataflow###
-  - name: "python"
+  - name: 'python'
     id: Install tox
     entrypoint: pip
-    args: ["install", "tox"]
-  - name: "python"
+    args: ['install', 'tox']
+  - name: 'python'
     id: Run Tests using tox
-    args: ["tox"]
+    args: ['tox']
   ###Build Dataflow ends here###
 
   ###Deploy Dataflow###
   - id: Setup Google Project ID Deploy dataflow
-    name: "ubuntu"
+    name: 'ubuntu'
     entrypoint: bash
     env:
-      - "project_name=${PROJECT_ID}"
-      - "GOOGLE_PROJECT_ID=${PROJECT_ID}"
-      - "GCPProject=${PROJECT_ID}"
+      - 'project_name=${PROJECT_ID}'
+      - 'GOOGLE_PROJECT_ID=${PROJECT_ID}'
+      - 'GCPProject=${PROJECT_ID}'
       - 'GCSBucketName="mari-${BRANCH_NAME}-sftp-outflow"'
     args:
       - -c
@@ -189,18 +189,18 @@ steps:
   - name: node:14.20.0
     id: Install Webpack CLI
     entrypoint: yarn
-    args: ["add", "-D", "webpack-cli@4.10.0"]
+    args: ['add', '-D', 'webpack-cli@4.10.0']
   - name: node:14.20.0
     id: Install Dependencies Hosting
     entrypoint: yarn
-    args: ["install"]
+    args: ['install']
   - name: ubuntu
     entrypoint: bash
-    args: ["set", "-eo", "pipefail"]
+    args: ['set', '-eo', 'pipefail']
   - name: ubuntu
     entrypoint: bash
     id: Building Module 1/3
-    timeout: "45000s"
+    timeout: '45000s'
     args:
       - -c
       - |
@@ -215,13 +215,13 @@ steps:
         echo "Running Webpack Build" && \
         ls ./node_modules/.bin
   - name: node:14.20.0
-    timeout: "45000s"
+    timeout: '45000s'
     entrypoint: npm
-    args: ["build:webpack"]
+    args: ['build:webpack']
   - name: node
     entrypoint: npm
     id: Building Module 3/3
-    timeout: "4500s"
+    timeout: '4500s'
     args:
       - -c
       - |
