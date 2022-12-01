@@ -55,27 +55,27 @@ steps:
     args: ["run", "t:c"]
   ###Build Hosting ends here###
 
-  ###Build Functions###
-  - name: node
-    id: Check npm version
-    entrypoint: npm
-    args: ["--version"]
-  - name: node
-    id: node-install function
-    entrypoint: yarn
-    args: ["install", "--production=false", "--force"]
-  - name: node
-    id: Run Typecheck
-    entrypoint: npm
-    args: ["run", "typecheck"]
-  - name: node
-    entrypoint: npm
-    id: Run Linting Check
-    args: ["run", "lint"]
-  - name: node
-    entrypoint: npm
-    id: Run Coverage Tests
-    args: ["run", "coverage"]
+#   ###Build Functions###
+#   - name: node
+#     id: Check npm version
+#     entrypoint: npm
+#     args: ["--version"]
+#   - name: node
+#     id: node-install function
+#     entrypoint: yarn
+#     args: ["install", "--production=false", "--force"]
+#   - name: node
+#     id: Run Typecheck
+#     entrypoint: npm
+#     args: ["run", "typecheck"]
+#   - name: node
+#     entrypoint: npm
+#     id: Run Linting Check
+#     args: ["run", "lint"]
+#   - name: node
+#     entrypoint: npm
+#     id: Run Coverage Tests
+#     args: ["run", "coverage"]
   ###Build Functions ends here###
 
   ###Build Dataflow###
