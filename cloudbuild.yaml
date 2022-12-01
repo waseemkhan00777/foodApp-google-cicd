@@ -49,19 +49,19 @@ steps:
     id: node-install hosting
     entrypoint: yarn
     args: ['install', '--non-interactive', '--production=false']
-  - name: node
-    id: Run Typecheck
-    entrypoint: yarn
-    args: ['run', 'typecheck']
-  - name: node
-    entrypoint: yarn
-    id: Run Linting Check
-    args: ['run', 'lint']
-  - name: node
-    entrypoint: yarn
-    id: Run Tests
-    timeout: '2700s'
-    args: ['run', 't:c']
+#   - name: node
+#     id: Run Typecheck
+#     entrypoint: yarn
+#     args: ['run', 'typecheck']
+#   - name: node
+#     entrypoint: yarn
+#     id: Run Linting Check
+#     args: ['run', 'lint']
+#   - name: node
+#     entrypoint: yarn
+#     id: Run Tests
+#     timeout: '2700s'
+#     args: ['run', 't:c']
   ###Build Hosting ends here###
 
   ###Build Functions###
