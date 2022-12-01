@@ -13,222 +13,221 @@
 # limitations under the License.
 
 steps:
-###Build App###
-# 4 Displaying Google Id
-- id: Setup Google Project ID
-  name: 'ubuntu'
-  entrypoint: bash
-  env:
-    - 'project_name=${PROJECT_ID}'
-    - 'GOOGLE_PROJECT_ID=${PROJECT_ID}'
-  args:
-    - echo ${PROJECT_ID}
-# 5 Storing service account key
-# - name: 'ubuntu'
-#   entrypoint: bash
-#   id: Store Service Account
-#   args:
-#     - echo ${!GCLOUD_SERVICE_KEY} | base64 --decode --ignore-garbage > /workspace/gcloud-service-key.json
-# 6 Python version display
-- name: python:3.7
-  id: Python Version check
-  entrypoint: python3
-  args: ["--version"]
-# 11
-- name: python:3.7
-  id: Install Dependencies
-  entrypoint: pip3
-  args: ["install", "-r", "requirements.txt", "--user"]
-###Build App Ends here###
+  ###Build App###
+  # 4 Displaying Google Id
+  - id: Setup Google Project ID
+    name: "ubuntu"
+    entrypoint: bash
+    env:
+      - "project_name=${PROJECT_ID}"
+      - "GOOGLE_PROJECT_ID=${PROJECT_ID}"
+    args:
+      - echo ${PROJECT_ID}
+  # 5 Storing service account key
+  # - name: 'ubuntu'
+  #   entrypoint: bash
+  #   id: Store Service Account
+  #   args:
+  #     - echo ${!GCLOUD_SERVICE_KEY} | base64 --decode --ignore-garbage > /workspace/gcloud-service-key.json
+  # 6 Python version display
+  - name: python:3.7
+    id: Python Version check
+    entrypoint: python3
+    args: ["--version"]
+  # 11
+  - name: python:3.7
+    id: Install Dependencies
+    entrypoint: pip3
+    args: ["install", "-r", "requirements.txt", "--user"]
+  ###Build App Ends here###
+  ###Build Hosting####
+  - name: "ubuntu"
+    entrypoint: bash
+    args: ["rm -f node_modules/.yarn.integrity"]
+    # error of no such file or directory
+  - name: node
+    id: node-install hosting
+    entrypoint: yarn
+    args: ["install", "--non-interactive", "--production=false"]
+  - name: node
+    id: Run Typecheck
+    entrypoint: yarn
+    args: ["run", "typecheck"]
+  - name: node
+    entrypoint: yarn
+    id: Run Linting Check
+    args: ["run", "lint"]
+  - name: node
+    entrypoint: yarn
+    id: Run Tests
+    timeout: "2700s"
+    args: ["run", "t:c"]
+  ###Build Hosting ends here###
 
-###Build Hosting####
-- name: "ubuntu"
-  entrypoint: bash
-  args: ["rm -f node_modules/.yarn.integrity"]
-  # error of no such file or directory
-- name: node
-  id: node-install hosting
-  entrypoint: yarn
-  args: [ 'install', '--non-interactive', '--production=false']
-- name: node
-  id: Run Typecheck
-  entrypoint: yarn
-  args: ['run', 'typecheck']
-- name: node
-  entrypoint: yarn
-  id: Run Linting Check
-  args: [ 'run', 'lint']
-- name: node
-  entrypoint: yarn
-  id: Run Tests
-  timeout: "2700s"
-  args: [ 'run', 't:c']
-###Build Hosting ends here###
+  ###Build Functions###
+  - name: node
+    id: Check npm version
+    entrypoint: npm
+    args: ["--version"]
+  - name: node
+    id: node-install function
+    entrypoint: yarn
+    args: ["install", "--production=false", "--force"]
+  - name: node
+    id: Run Typecheck
+    entrypoint: npm
+    args: ["run", "typecheck"]
+  - name: node
+    entrypoint: npm
+    id: Run Linting Check
+    args: ["run", "lint"]
+  - name: node
+    entrypoint: npm
+    id: Run Coverage Tests
+    args: ["run", "coverage"]
+  ###Build Functions ends here###
 
-###Build Functions###
-- name: node
-  id: Check npm version
-  entrypoint: npm
-  args: ["--version"]
-- name: node
-  id: node-install function
-  entrypoint: yarn
-  args: [ 'install', '--production=false', '--force']
-- name: node
-  id: Run Typecheck
-  entrypoint: npm
-  args: ['run', 'typecheck']
-- name: node
-  entrypoint: npm
-  id: Run Linting Check
-  args: [ 'run', 'lint']
-- name: node
-  entrypoint: npm
-  id: Run Coverage Tests
-  args: [ 'run', 'coverage']
-###Build Functions ends here###
+  ###Build Dataflow###
+  - name: "python"
+    id: Install tox
+    entrypoint: pip
+    args: ["install", "tox"]
+  - name: "python"
+    id: Run Tests using tox
+    args: ["tox"]
+  ###Build Dataflow ends here###
 
-###Build Dataflow###
-- name: 'python'
-  id: Install tox
-  entrypoint: pip
-  args: [ 'install', 'tox']
-- name: 'python'
-  id: Run Tests using tox
-  args: ['tox']
-###Build Dataflow ends here###
+  ###Deploy Dataflow###
+  - id: Setup Google Project ID Deploy dataflow
+    name: "ubuntu"
+    entrypoint: bash
+    env:
+      - "project_name=${PROJECT_ID}"
+      - "GOOGLE_PROJECT_ID=${PROJECT_ID}"
+      - "GCPProject=${PROJECT_ID}"
+      - 'GCSBucketName="mari-${BRANCH_NAME}-sftp-outflow"'
+    args:
+      - -c
+      - |
+        echo ${project_name}
+        echo ${GCPProject}
+        echo ${GCSBucketName}
+  - name: python:3.7
+    id: Deploy Attendance Pipeline
+    args:
+      - -c
+      - |
+        ./deployAttendanceCSV.sh
+  - name: python:3.7
+    id: Deploy Course Pipeline
+    args:
+      - -c
+      - |
+        ./deployCoursesCSV.sh
+  - name: python:3.7
+    id: Deploy Enrollment Pipeline
+    args:
+      - -c
+      - |
+        ./deployEnrollmentsCSV.sh
+  - name: python:3.7
+    id: Deploy Grades Pipeline
+    args:
+      - -c
+      - |
+        ./deployGradesCSV.sh
+  - name: python:3.7
+    id: Deploy Khan Pipeline
+    args:
+      - -c
+      - |
+        ./deployKhanActivities.sh
+  - name: python:3.7
+    id: Deploy Schools Pipeline
+    args:
+      - -c
+      - |
+        ./deploySchoolCSV.sh
+  - name: python:3.7
+    id: Deploy Sections Pipeline
+    args:
+      - -c
+      - |
+        ./deploySectionsCSV.sh
+  - name: python:3.7
+    id: Deploy Staff Pipeline
+    args:
+      - -c
+      - |
+        ./deployStaffCSV.sh
+  - name: python:3.7
+    id: Deploy Student Pipeline
+    args:
+      - -c
+      - |
+        ./deployStudentCSV.sh
+  - name: python:3.7
+    id: Deploy Term Pipeline
+    args:
+      - -c
+      - |
+        ./deployTermCSV.sh
+  - name: python:3.7
+    id: Deploy VasolCeds Pipeline
+    args:
+      - -c
+      - |
+        ./deployVasolCedsCSV.sh
+  - name: python:3.7
+    id: Deploy Discipline Pipeline
+    args:
+      - -c
+      - |
+        ./deployDisciplineCSV.sh
+  ###Deploy Dataflow ends here###
+  ###Deploy Hosting###
+  - name: node:14.20.0
+    id: Install Webpack CLI
+    entrypoint: yarn
+    args: ["add", "-D", "webpack-cli@4.10.0"]
+  - name: node:14.20.0
+    id: Install Dependencies Hosting
+    entrypoint: yarn
+    args: ["install"]
+  - name: ubuntu
+    entrypoint: bash
+    args: ["set", "-eo", "pipefail"]
+  - name: ubuntu
+    entrypoint: bash
+    id: Building Module 1/3
+    timeout: "45000s"
+    args:
+      - -c
+      - |
+        echo "Clearing Existing Build Artifacts" && \
+        rm -rf build
+  - name: ubuntu
+    entrypoint: bash
+    id: Building Module 2/3
+    args:
+      - -c
+      - |
+        echo "Running Webpack Build" && \
+        ls ./node_modules/.bin
+  - name: node:14.20.0
+    timeout: "45000s"
+    entrypoint: npm
+    args: ["build:webpack"]
+  - name: node
+    entrypoint: npm
+    id: Building Module 3/3
+    timeout: "4500s"
+    args:
+      - -c
+      - |
+        echo "Copying Resources" && \
+        run copy-build-resources
 
-###Deploy Dataflow###
-- id: Setup Google Project ID Deploy dataflow
-  name: 'ubuntu'
-  entrypoint: bash
-  env:
-    - 'project_name=${PROJECT_ID}'
-    - 'GOOGLE_PROJECT_ID=${PROJECT_ID}'
-    - 'GCPProject=${PROJECT_ID}'
-    - 'GCSBucketName="mari-${BRANCH_NAME}-sftp-outflow"'
-  args:
-    - -c
-    - |
-      echo ${project_name}
-      echo ${GCPProject}
-      echo ${GCSBucketName}
-- name: python:3.7
-  id: Deploy Attendance Pipeline
-  args:
-    - -c 
-    - |
-      ./deployAttendanceCSV.sh
-- name: python:3.7
-  id: Deploy Course Pipeline
-  args:
-    - -c
-    - |
-      ./deployCoursesCSV.sh
-- name: python:3.7
-  id: Deploy Enrollment Pipeline
-  args:
-    - -c
-    - |
-      ./deployEnrollmentsCSV.sh
-- name: python:3.7
-  id: Deploy Grades Pipeline
-  args:
-    - -c
-    - |
-      ./deployGradesCSV.sh
-- name: python:3.7
-  id: Deploy Khan Pipeline
-  args:
-    - -c
-    - |
-      ./deployKhanActivities.sh
-- name: python:3.7
-  id: Deploy Schools Pipeline
-  args:
-    - -c
-    - |
-      ./deploySchoolCSV.sh
-- name: python:3.7
-  id: Deploy Sections Pipeline
-  args:
-    - -c
-    - |
-      ./deploySectionsCSV.sh
-- name: python:3.7
-  id: Deploy Staff Pipeline
-  args:
-    - -c
-    - |
-      ./deployStaffCSV.sh
-- name: python:3.7
-  id: Deploy Student Pipeline
-  args:
-    - -c
-    - |
-      ./deployStudentCSV.sh
-- name: python:3.7
-  id: Deploy Term Pipeline
-  args:
-    - -c
-    - |
-      ./deployTermCSV.sh
-- name: python:3.7
-  id: Deploy VasolCeds Pipeline
-  args:
-    - -c
-    - |
-      ./deployVasolCedsCSV.sh
-- name: python:3.7
-  id: Deploy Discipline Pipeline
-  args:
-    - -c
-    - |
-      ./deployDisciplineCSV.sh
-###Deploy Dataflow ends here###
-
-###Deploy Hosting###
-- name: node:14.20.0
-  id: Install Webpack CLI
-  entrypoint: yarn
-  args: [ 'add', '-D', 'webpack-cli@4.10.0']
-- name: node:14.20.0
-  id: Install Dependencies Hosting
-  entrypoint: yarn
-  args: [ 'install']
-- name: ubuntu
-  entrypoint: bash
-  args: [ 'set', '-eo', 'pipefail' ]
-- name: ubuntu
-  entrypoint: bash
-  id: Building Module 1/3
-  timeout: '45000s'
-  args:
-    - -c
-    - |
-      echo "Clearing Existing Build Artifacts" && \
-      rm -rf build
-- name: ubuntu
-  entrypoint: bash
-  id: Building Module 2/3
-  args:
-    - -c 
-    - |
-      echo "Running Webpack Build" && \
-      ls ./node_modules/.bin
-- name: node:14.20.0
-  timeout: '45000s'
-  entrypoint: npm
-  args: [ 'build:webpack' ]
-- name: node
-  entrypoint: npm
-  id: Building Module 3/3
-  timeout: '4500s'
-  args:
-    - -c 
-    - |
-      echo "Copying Resources" && \
-      run copy-build-resources
 # - name: 'gcr.io/${PROJECT_ID}/firebase'
 #   id: Deploying Firebase Hosting
 #   args: ['deploy', '--project=${PROJECT_ID}', '--only=hosting']
@@ -299,7 +298,7 @@ steps:
 #   args: [ 'deploy', '--only functions:utilTriggers', '--force', '--debug']
 # - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
 #   id: Deploying Reports Cloud Functions
-  # args: [ 'deploy', '--only functions:reports', '--force', '--debug']
+# args: [ 'deploy', '--only functions:reports', '--force', '--debug']
 # ###Deploy Function ends here###
 
 # ###Deploy App###
