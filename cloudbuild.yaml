@@ -42,18 +42,18 @@ steps:
   ###Build App###
   # 4 Displaying Google Id
   - id: Setup Google Project ID
-    name: 'ubuntu'
+    name: "ubuntu"
     entrypoint: bash
     env:
-      - 'GCLOUD_SERVICE_KEY=${_SERVICE_ACCOUNT}'
-      - 'project_name=${PROJECT_ID}'
+      - "GCLOUD_SERVICE_KEY=${_SERVICE_ACCOUNT}"
+      - "project_name=${PROJECT_ID}"
       # - 'GOOGLE_PROJECT_ID=${!project_name}'
     args:
       - -c
       - |
         echo ${PROJECT_ID}
   # 5 Storing service account key
-  - name: 'ubuntu'
+  - name: "ubuntu"
     entrypoint: bash
     id: Store Service Account
     args:
@@ -64,7 +64,7 @@ steps:
   - name: python
     id: Python Version check
     entrypoint: python3
-    args: ['--version']
+    args: ["--version"]
   # 11
   # - name: python
   #   id: Install Dependencies
@@ -91,14 +91,14 @@ steps:
   #   id: Save Firebase Config
   #   args:
   #     - firebase functions:config:get > .name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'imeconfig.json
-  - name: 'ubuntu'
-    entrypoint: bash
-    args: ['rm -f node_modules/.yarn.integrity']
-    # error of no such file or directory
+#   - name: "ubuntu"
+#     entrypoint: bash
+#     args: ["rm -f node_modules/.yarn.integrity"]
+#     # error of no such file or directory
   - name: node
     id: node-install hosting
     entrypoint: yarn
-    args: ['install', '--non-interactive', '--production=false']
+    args: ["install", "--non-interactive", "--production=false"]
   # - name: node
   #   id: Run Typecheck
   #   entrypoint: yarn
@@ -118,11 +118,11 @@ steps:
   - name: node
     id: Check npm version
     entrypoint: npm
-    args: ['--version']
+    args: ["--version"]
   - name: node
     id: node-install function
     entrypoint: yarn
-    args: ['install', '--production=false', '--force']
+    args: ["install", "--production=false", "--force"]
   # - name: node
   #   id: Run Typecheck
   #   entrypoint: npm
@@ -149,13 +149,13 @@ steps:
 
   ###Deploy Dataflow###
   - id: Setup Google Project ID Deploy dataflow
-    name: 'ubuntu'
+    name: "ubuntu"
     entrypoint: bash
     env:
-      - 'GCLOUD_SERVICE_KEY=${BRANCH_NAME}_google_service_account'
-      - 'project_name=${BRANCH_NAME}_branch'
+      - "GCLOUD_SERVICE_KEY=${BRANCH_NAME}_google_service_account"
+      - "project_name=${BRANCH_NAME}_branch"
       # - 'GOOGLE_PROJECT_ID=${!project_name}'
-      - 'GOOGLE_APPLICATION_CREDENTIALS=/workspaces/gcloud-service-key.json'
+      - "GOOGLE_APPLICATION_CREDENTIALS=/workspaces/gcloud-service-key.json"
       # - 'GCPProject=${GOOGLE_PROJECT_ID}'
       - 'GCSBucketName="mari-${BRANCH_NAME}-sftp-outflow"'
     args:
@@ -253,18 +253,18 @@ steps:
   - name: node
     id: Install Webpack CLI
     entrypoint: yarn
-    args: ['add', '-D', 'webpack-cli@4.10.0']
+    args: ["add", "-D", "webpack-cli@4.10.0"]
   - name: node
     id: Install Dependencies Hosting
     entrypoint: yarn
-    args: ['install', '--production=false']
+    args: ["install", "--production=false"]
   # - name: ubuntu
   #   entrypoint: bash
   #   args: [ 'set', '-eo', 'pipefail' ]
   - name: ubuntu
     entrypoint: bash
     id: Building Module 1/3
-    timeout: '45000s'
+    timeout: "45000s"
     args:
       - -c
       - |
@@ -297,13 +297,13 @@ steps:
 
   ###Deploy Functions###
   - id: Setup Environment variables
-    name: 'ubuntu'
+    name: "ubuntu"
     entrypoint: bash
     env:
-      - 'GCLOUD_SERVICE_KEY=${BRANCH_NAME}_google_service_account'
-      - 'project_name=${BRANCH_NAME}_branch'
+      - "GCLOUD_SERVICE_KEY=${BRANCH_NAME}_google_service_account"
+      - "project_name=${BRANCH_NAME}_branch"
       # - 'GOOGLE_PROJECT_ID=${!project_name}'
-      - 'GOOGLE_APPLICATION_CREDENTIALS=/workspaces/gcloud-service-key.json'
+      - "GOOGLE_APPLICATION_CREDENTIALS=/workspaces/gcloud-service-key.json"
       # - 'GCPProject=${GOOGLE_PROJECT_ID}'
       - 'GCSBucketName="mari-${BRANCH_NAME}-sftp-outflow"'
     args:
@@ -314,7 +314,6 @@ steps:
         echo GOOGLE_APPLICATION_CREDENTIALS
         echo GCPProject
         echo GCSBucketName
-
 # - name: node
 #   id: Building Cloud Funtions
 #   entrypoint: yarn
