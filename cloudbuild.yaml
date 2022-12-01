@@ -32,9 +32,9 @@ steps:
     args: ["install","cachetools"]
   ###Build App Ends here###
   ###Build Hosting####
-  - name: "ubuntu"
-    entrypoint: bash
-    args: ["rm -f node_modules/.yarn.integrity"]
+#   - name: "ubuntu"
+#     entrypoint: bash
+#     args: ["rm -f node_modules/.yarn.integrity"]
     # error of no such file or directory
   - name: node
     id: node-install hosting
