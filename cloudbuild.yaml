@@ -3,9 +3,9 @@ steps:
 #   name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:404.0.0'
 #   args: []
 - id: build-hosting
-  name: 'node:14.20.0'
+  name: node
   entrypoint: yarn
-  args: ['install --non-interactive --production=false', 'run typecheck', 'run lint', 'run t:c']
+  args: ['install', '--production=false', '--force']
 - id: build-functions
   name: 'node:14.20.0'
 - id: build-app
