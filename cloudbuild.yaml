@@ -66,10 +66,10 @@ steps:
     entrypoint: python3
     args: ["--version"]
   # 11
-  - name: python
-    id: Install Dependencies
-    entrypoint: pip
-    args: ["install", "-r", "requirements.txt", "--user"]
+  # - name: python
+  #   id: Install Dependencies
+  #   entrypoint: pip
+  #   args: ["install", "-r", "requirements.txt", "--user"]
   ###Build App Ends here###
   ###Build Hosting####
   # - id: build-hosting
@@ -91,10 +91,10 @@ steps:
   #   id: Save Firebase Config
   #   args:
   #     - firebase functions:config:get > .name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'imeconfig.json
-  - name: "ubuntu"
-    entrypoint: bash
-    args: ["rm -f node_modules/.yarn.integrity"]
-    # error of no such file or directory
+  #   - name: "ubuntu"
+  #     entrypoint: bash
+  #     args: ["rm -f node_modules/.yarn.integrity"]
+  #     # error of no such file or directory
   - name: node
     id: node-install hosting
     entrypoint: yarn
@@ -138,13 +138,13 @@ steps:
   ###Build Functions ends here###
 
   ###Build Dataflow###
-  - name: "python"
-    id: Install tox
-    entrypoint: pip
-    args: ["install", "tox"]
-  - name: "python"
-    id: Run Tests using tox
-    args: ["tox"]
+  # - name: "python"
+  #   id: Install tox
+  #   entrypoint: pip
+  #   args: ["install", "tox"]
+  # - name: "python"
+  #   id: Run Tests using tox
+  #   args: ["tox"]
   ###Build Dataflow ends here###
 
   ###Deploy Dataflow###
