@@ -28,27 +28,46 @@ module.exports.subscribe = (event, callback) => {
 };
 
 // eventToBuild transforms pubsub event message to a build object.
-const eventToBuild = (data) => {
+const eventToBuild = data => {
   return JSON.parse(new Buffer(data, "base64").toString());
 };
 
 // createSlackMessage create a message from a build object.
-const createSlackMessage = (build) => {
+const createSlackMessage = build => {
+  let buildId = build.id || "";
+  let buildCommit = build.substitutions.COMMIT_SHA || "";
+  let branch = build.substitutions.BRANCH_NAME || "";
+  let repoName = build.source.repoSource.repoName.split("_").pop() || ""; //Get repository name
+
   let message = {
-    text: `Build \`${build.id}\``,
+    text: `Build - \`${buildId}\``,
     mrkdwn: true,
     attachments: [
       {
-        title: "DEPLOYMENT SUCCESSFUL!!! 🎉🎉🎉",
+        title: "View Build Logs",
         title_link: build.logUrl,
         fields: [
           {
             title: "Status",
-            value: build.status,
-          },
-        ],
+            value: build.status
+          }
+        ]
       },
-    ],
+      {
+        title: `Commit - ${buildCommit}`,
+        title_link: `https://bitbucket.org/<ORGANIZATION-NAME>/${repoName}/commits/${buildCommit}`, // Insert your Organization/Bitbucket/Github Url
+        fields: [
+          {
+            title: "Branch",
+            value: branch
+          },
+          {
+            title: "Repository",
+            value: repoName
+          }
+        ]
+      }
+    ]
   };
   return message;
 };
