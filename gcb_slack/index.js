@@ -53,7 +53,7 @@ const createSlackMessage = (build) => {
         ],
       },
       {
-        title: `Commit - ${buildCommit}`,
+        title: `Commit  - ${buildCommit}`,
         title_link: `https://bitbucket.org/<ORGANIZATION-NAME>/${repoName}/commits/${buildCommit}`, // Insert your Organization/Bitbucket/Github Url
         fields: [
           {
