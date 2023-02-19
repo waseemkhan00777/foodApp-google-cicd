@@ -16,6 +16,7 @@ steps:
         fi
   - name: gcr.io/${PROJECT_ID}/firebase
     id: Get Firebase Config
+    entrypoint: bash
     args:
       - -c
         - |
@@ -25,6 +26,7 @@ steps:
         fi
   - name: gcr.io/${PROJECT_ID}/firebase
     id: Deploying Hosting
+    entrypoint: bash
     args:
       - -c
         - |
