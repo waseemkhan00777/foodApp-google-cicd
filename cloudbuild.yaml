@@ -20,6 +20,5 @@ steps:
         - |
         if [[ "$BRANCH_NAME" == "delta" || "$BRANCH_NAME" == "develop" || "$BRANCH_NAME" == "epsilon" || "$BRANCH_NAME" == "staging" ]]
         then
-        echo "TESTING FIREBASE DEPLOYMENTS"
-        firebase deploy --project=${PROJECT_ID} --only hosting
+        echo "TESTING FIREBASE DEPLOYMENTS ${PROJECT_ID}"
         fi
