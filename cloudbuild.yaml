@@ -23,11 +23,3 @@ steps:
         then
           echo "Production stuff only"
         fi
-  # 5 Storing service account key
-  - name: "ubuntu"
-    entrypoint: bash
-    id: Store Service Account
-    args:
-      - -c
-      - |
-        echo ${!GCLOUD_SERVICE_KEY} | base64 --decode --ignore-garbage > /workspace/gcloud-service-key.json
