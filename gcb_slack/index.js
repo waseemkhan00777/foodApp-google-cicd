@@ -1,6 +1,6 @@
 const { IncomingWebhook } = require("@slack/webhook");
 const SLACK_WEBHOOK_URL =
-  "https://hooks.slack.com/services/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";
+  "https://hooks.slack.com/services/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";
 
 const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 
@@ -31,7 +31,6 @@ module.exports.subscribe = (event, callback) => {
 const eventToBuild = data => {
   return JSON.parse(new Buffer(data, "base64").toString());
 };
-
 // createSlackMessage create a message from a build object.
 const createSlackMessage = build => {
   let buildId = build.id || "";
@@ -54,7 +53,7 @@ const createSlackMessage = build => {
         ]
       },
       {
-        title: `Commit - ${buildCommit}`,
+        title: `Commit  - ${buildCommit}`,
         title_link: `https://bitbucket.org/<ORGANIZATION-NAME>/${repoName}/commits/${buildCommit}`, // Insert your Organization/Bitbucket/Github Url
         fields: [
           {
