@@ -5,7 +5,6 @@ steps:
     id: Python Version check
     entrypoint: python3
     args: ["--version"]
-    branches: ["*"]
   - name: node
     id: Check npm version
     entrypoint: npm
@@ -20,7 +19,11 @@ steps:
         if [[ "$BRANCH_NAME" == "develop" ]]
         then
           echo "Development stuff only"
-          # npm install
+          steps:
+            - name: python
+              id: Python Version check
+              entrypoint: python3
+              args: ["--version"]
         elif [[ "$BRANCH_NAME" == "main" ]]
         then
           echo "Production stuff only"
