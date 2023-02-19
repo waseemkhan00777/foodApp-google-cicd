@@ -5,20 +5,23 @@ steps:
     id: Python Version check
     entrypoint: python3
     args: ["--version"]
+  - name: node
+    id: Check npm version
+    entrypoint: npm
+    args: ["--version"]
   # 4 Displaying Google Id
   - id: Setup Google Project ID
     name: "ubuntu"
     entrypoint: bash
-    env:
-      - "GCLOUD_SERVICE_KEY=${_SERVICE_ACCOUNT}"
-      - "project_name=${PROJECT_ID}"
-      # - 'GOOGLE_PROJECT_ID=${!project_name}'
     args:
       - -c
       - |
         if [[ "$BRANCH_NAME" == "develop" ]]
         then
-          echo "Development stuff only"
+          name: node
+          id: Check npm version
+          entrypoint: npm
+          args: ["--version"]
         elif [[ "$BRANCH_NAME" == "main" ]]
         then
           echo "Production stuff only"
