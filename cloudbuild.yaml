@@ -1,10 +1,5 @@
 steps:
   ###Build App###
-  # 6 Python version display
-  - name: python
-    id: Python Version check
-    entrypoint: python3
-    args: ["--version"]
   - name: node
     id: Check npm version
     entrypoint: npm
@@ -20,6 +15,7 @@ steps:
         then
           echo "Development stuff only"
           yarn
+          yarn run
         elif [[ "$BRANCH_NAME" == "main" ]]
         then
           echo "Production stuff only"
