@@ -14,8 +14,7 @@ steps:
         if [[ "$BRANCH_NAME" == "develop" ]]
         then
           echo "Development stuff only"
-          yarn
-          yarn run
+          args: ["--version"]
         elif [[ "$BRANCH_NAME" == "main" ]]
         then
           echo "Production stuff only"
