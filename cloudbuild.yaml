@@ -15,6 +15,15 @@ steps:
           echo "sub-branch stuff only"
         fi
   - name: gcr.io/${PROJECT_ID}/firebase
+    id: Get Firebase Config
+    args:
+      - -c
+        - |
+        if [[ "$BRANCH_NAME" == "delta" || "$BRANCH_NAME" == "development" || "$BRANCH_NAME" == "epsilon" || "$BRANCH_NAME" == "staging" ]]
+        then
+        firebase use ${PROJECT_ID}
+        fi
+  - name: gcr.io/${PROJECT_ID}/firebase
     id: Deploying Hosting
     args:
       - -c
