@@ -1,12 +1,6 @@
 steps:
-  ###Build App###
-  - name: node
-    id: Check npm version
-    entrypoint: npm
-    args: ["--version"]
-  # 4 Displaying Google Id
-  - id: Setup Google Project ID
-    name: "node"
+  - id: Branch Filtering Testing
+    name: node
     entrypoint: bash
     args:
       - -c
@@ -14,7 +8,7 @@ steps:
         if [[ "$BRANCH_NAME" == "develop" ]]
         then
           echo "Development stuff only"
-          args: ["--version"]
+          yarn
         elif [[ "$BRANCH_NAME" == "main" ]]
         then
           echo "Production stuff only"
