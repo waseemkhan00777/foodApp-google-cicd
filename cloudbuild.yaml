@@ -16,22 +16,11 @@ steps:
         fi
   - name: gcr.io/${PROJECT_ID}/firebase
     id: Get Firebase Config
-    entrypoint: bash
+    entrypoint: firebase
     args:
       - -c
         - |
         if [[ "$BRANCH_NAME" == "delta" || "$BRANCH_NAME" == "develop" || "$BRANCH_NAME" == "epsilon" || "$BRANCH_NAME" == "staging" ]]
         then
         firebase use ${PROJECT_ID}
-        fi
-  - name: gcr.io/${PROJECT_ID}/firebase
-    id: Deploying Hosting
-    entrypoint: bash
-    args:
-      - -c
-        - |
-        if [[ "$BRANCH_NAME" == "delta" || "$BRANCH_NAME" == "develop" || "$BRANCH_NAME" == "epsilon" || "$BRANCH_NAME" == "staging" ]]
-        then
-        echo "TESTING FIREBASE DEPLOYMENTS ${PROJECT_ID}"
-        firebase deploy --project=${PROJECT_ID} --only hosting
         fi
