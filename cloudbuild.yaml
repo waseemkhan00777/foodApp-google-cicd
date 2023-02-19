@@ -11,6 +11,7 @@ steps:
           yarn
         elif [[ "$BRANCH_NAME" == "develop" ]]
         then
+          echo "TESTING FIREBASE DEPLOYMENTS ${PROJECT_ID}"
           echo "sub-branch stuff only"
         fi
   - name: gcr.io/${PROJECT_ID}/firebase
@@ -21,4 +22,5 @@ steps:
         if [[ "$BRANCH_NAME" == "delta" || "$BRANCH_NAME" == "develop" || "$BRANCH_NAME" == "epsilon" || "$BRANCH_NAME" == "staging" ]]
         then
         echo "TESTING FIREBASE DEPLOYMENTS ${PROJECT_ID}"
+        firebase deploy --project=${PROJECT_ID} --only hosting
         fi
