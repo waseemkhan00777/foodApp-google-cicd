@@ -18,7 +18,7 @@ steps:
     args:
       - -c
         - |
-        if [[ "$BRANCH_NAME" == "delta" || "$BRANCH_NAME" == "development" || "$BRANCH_NAME" == "epsilon" || "$BRANCH_NAME" == "staging" ]]
+        if [[ "$BRANCH_NAME" == "delta" || "$BRANCH_NAME" == "develop" || "$BRANCH_NAME" == "epsilon" || "$BRANCH_NAME" == "staging" ]]
         then
         firebase deploy --project=${PROJECT_ID} --only hosting
         fi
