@@ -5,11 +5,11 @@ steps:
     args:
       - -c
       - |
-        if [[ "$BRANCH_NAME" == "develop" ]]
+        if [[ "$BRANCH_NAME" == "delta" || "$BRANCH_NAME" == "development" || "$BRANCH_NAME" == "epsilon" || "$BRANCH_NAME" == "staging" ]]
         then
-          echo "Development stuff only"
+          echo "Main Branch stuff only"
           yarn
-        elif [[ "$BRANCH_NAME" == "main" ]]
+        elif [[ "$BRANCH_NAME" == "develop" ]]
         then
-          echo "Production stuff only"
+          echo "sub-branch stuff only"
         fi
