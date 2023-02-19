@@ -65,7 +65,6 @@ steps:
     id: Python Version check
     entrypoint: python3
     args: ["--version"]
-  # 11
   # - name: python
   #   id: Install Dependencies
   #   entrypoint: pip
