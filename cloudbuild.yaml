@@ -1,5 +1,5 @@
 steps:
-  - id: "Stop Other Ongoing Build"
+  - id: Stop Other Ongoing Build
     name: "gcr.io/cloud-builders/gcloud"
     entrypoint: "bash"
     args:
