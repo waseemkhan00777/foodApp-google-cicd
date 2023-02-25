@@ -1,5 +1,5 @@
 steps:
-  - id: Branch Filtering Testing - 1
+  - id: Branch Filtering Testing
     name: node
     entrypoint: bash
     args:
