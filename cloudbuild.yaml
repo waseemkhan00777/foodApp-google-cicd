@@ -15,7 +15,7 @@ steps:
           echo "sub-branch stuff only"
         fi
   - name: gcr.io/${PROJECT_ID}/firebase
-    id: Get Firebase Config
+    id: Get Firebase Config.
     entrypoint: firebase
     args:
       - -c
