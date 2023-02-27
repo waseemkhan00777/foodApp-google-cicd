@@ -4,7 +4,7 @@ steps:
     id: Check node version
     entrypoint: node
     args: ["--version"]
-    if: '$BRANCH_NAME == "develop-sub5"'
+    if: '$BRANCH_NAME == "develop-sub6"'
   # Npm version display
   - name: node:14
     id: Check npm version
