@@ -1,11 +1,11 @@
 steps:
   # Node version display
   - name: node:14
-    id: Check node version
+    id: NODE version
     entrypoint: node
     args: ["--version"]
   # Npm version display
   - name: node:14
-    id: Check npm version
+    id: NPM Version
     entrypoint: npm
     args: ["--version"]
